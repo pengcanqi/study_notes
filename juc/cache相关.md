@@ -283,7 +283,7 @@ void bar() {
 
 引入了store buffer，再辅以store forwarding，写屏障，看起来好像可以自洽了，然而还有一个问题没有考虑: store buffer的大小是有限的，所有的写入操作发生cache missing（数据不再本地）都会使用store buffer，特别是出现内存屏障时，后续的所有写入操作(不管是否cache missing)都会挤压在store buffer中(直到store buffer中屏障前的条目处理完)，因此store buffer很容易会满，当store buffer满了之后，cpu还是会卡在等对应的Invalidate ACK以处理store buffer中的条目。因此还是要回到Invalidate ACK中来，Invalidate ACK耗时的主要原因是cpu要先将对应的cache line置为Invalid后再返回Invalidate ACK，一个很忙的cpu可能会导致其它cpu都在等它回Invalidate ACK。解决思路还是化同步为异步: cpu不必要处理了cache line之后才回Invalidate ACK，而是可以先将Invalid消息放到某个请求队列Invalid Queue，然后就返回Invalidate ACK。CPU可以后续再处理Invalid Queue中的消息，大幅度降低Invalidate ACK响应时间。此时的CPU Cache结构图如下：
 
-![img](https://pic2.zhimg.com/80/v2-3f2d67d49f22f0d23ccac160b27a52b1_720w.jpg)
+![Invalid Queue.jpg](https://github.com/pengcanqi/study_note_image/blob/main/%E5%A4%9A%E7%BA%BF%E7%A8%8B/Invalid%20Queue.jpg?raw=true)
 
 加入了invalid queue之后，cpu在处理任何cache line的MSEI状态前，都必须先看invalid queue中是否有该cache line的Invalid消息没有处理。另外，它也再一次破坏了内存的一致性。请看代码：
 
