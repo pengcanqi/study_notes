@@ -199,7 +199,7 @@ p = c - current_entry.previous_entry_length
 
 ### 跳跃表结构简介
 
-![简易跳跃表](C:\Users\pengc\Desktop\study\study_note_image\数据库\redis\简易跳跃表.png)
+![简易跳跃表](../../study_note_image/数据库/redis/简易跳跃表.png)
 
 如果没有跳跃表，在有序链表中要查找6这个元素，我们需要遍历的路径为:
 
@@ -280,7 +280,7 @@ typedef struct redisObject {
 
 而我们常用的Redis对象有：字符串对象，列表对象，集合对象，有序集合对象，hash对象这五种。这些对象底层的编码方式，也可以说是底层数据结构，可能有不同的实现方式。具体对应关系如下
 
-![对象与编码](C:\Users\pengc\Desktop\study\study_note_image\数据库\redis\对象与编码.png)
+![对象与编码](../../study_note_image/数据库/redis/对象与编码.png)
 
 ## 8.键空间
 
@@ -300,7 +300,7 @@ redis是一个键值对数据库服务器，每个数据库都有一个redisDb�
 
 ### 7.3  键空间结构示例
 
-![数据库键空间例子](C:\Users\pengc\Desktop\study\study_note_image\数据库\redis\数据库键空间例子.png)
+![数据库键空间例子](../../study_note_image/数据库/redis/数据库键空间例子.png)
 
 ## 9. 过期键处理
 
@@ -345,7 +345,7 @@ redis是一个键值对数据库服务器，每个数据库都有一个redisDb�
 
 为了保证Redis的安全稳定运行，设置了一个max-memory的阈值，那么当内存用量到达阈值，新写入的键值对无法写入，此时就需要内存淘汰机制，在Redis的配置中有几种淘汰策略可以选择，详细如下：
 
-**noeviction**: 当内存不足以容纳新写入数据时，新写入操作会报错；
+**noeviction**: 当内存不足以容纳新写入数据时，新写入操作会报错；**默认策略**
 
 **allkeys-lru**：当内存不足以容纳新写入数据时，在键空间中移除最近最少使用的 key；
 
@@ -412,7 +412,7 @@ https://redis.io/topics/memory-optimization
 
 ### aof后台重写
 
-![aof后台重写](C:\Users\pengc\Desktop\study\study_note_image\数据库\redis\aof后台重写.png)
+![aof后台重写](../../study_note_image/数据库/redis/aof后台重写.png)
 
 子进程在进行 AOF 重写期间， 主进程还需要继续处理命令， 而新的命令可能对现有的数据进行修改， 会出现数据库的数据和重写后的 AOF 文件中的数据不一致。因此Redis 增加了一个 AOF 重写缓存， 这个缓存在 fork 出子进程之后开始启用， Redis 主进程在接到新的写命令之后， 除了会将这个写命令的协议内容追加到现有的 AOF 文件之外， 还会追加到这个缓存中。当子进程完成 AOF 重写之后向父进程发送一个完成信号， 父进程在接到完成信号之后会调用信号处理函数，完成以下工作：
 
@@ -459,7 +459,7 @@ AOF 重写可以由用户通过调用 BGREWRITEAOF 手动触发。
 
 以list结构组成一个链表
 
-![时间事件](C:\Users\pengc\Desktop\study\study_note_image\数据库\redis\时间事件.png)
+![时间事件](../../study_note_image/数据库/redis/时间事件.png)
 
 ### 事件的执行
 
@@ -501,7 +501,7 @@ redis从2.8版本后，采用psync命令替代了sync命令，psync命令有两�
 - 主服务器的复制积压缓冲区：FIFO的环形数组
 - 服务器运行ID
 
-![同步](C:\Users\pengc\Desktop\study\study_note_image\数据库\redis\同步.png)
+![同步](../../study_note_image/数据库/redis/同步.png)
 
 服务器A：本地保存的主服务器ID与实际的主服务器ID相同，偏移量10100能在复制积压缓冲区找到，所以进行增量同步
 
@@ -524,7 +524,7 @@ sentinel就是为了解决上述问题而存在的
 
 ### sentinel架构介绍
 
-![sentinel](C:\Users\pengc\Desktop\study\study_note_image\数据库\redis\sentinel.png)
+![sentinel](../../study_note_image/数据库/redis/sentinel.png)
 
 **两类节点**：
 
@@ -621,7 +621,7 @@ codis架构：客户端不直接访问master节点，通过codis代理访问mast
 
 ### cluster架构介绍
 
-![cluster](C:\Users\pengc\Desktop\study\study_note_image\数据库\redis\cluster.png)
+![cluster](../../study_note_image/数据库/redis/cluster.png)
 
 #### 数据存储
 
